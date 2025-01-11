@@ -14,37 +14,32 @@ public class Main {
         }
     }
 
-    public static void checkPhone(int year) {
-        if (year == LocalDate.now().getYear()) {
-            System.out.print("Установите обычную версию приложения для  ");
-        } else {
-            System.out.print("Установите облегченную версию приложения для ");
+    public static void checkDevice(int clientDeviceYear, int operatingSystem) {
+        if (clientDeviceYear >= 2015 && operatingSystem == 0) {
+            System.out.println("Установите обычную версию приложения для iOS по ссылке");
+        } else if (clientDeviceYear >= 2015 && operatingSystem == 1) {
+            System.out.println("Установите обычную версию приложения для Android по ссылке");
+        }
+        if (clientDeviceYear < 2015 && operatingSystem == 0) {
+            System.out.println("Установите облегченную версию приложения для iOS по ссылке");
+        } else if (clientDeviceYear < 2015 && operatingSystem == 1) {
+            System.out.println("Установите облегченную версию приложения для Android по ссылке");
         }
     }
 
-    public static void checkPhoneOS(int nameOS) {
-        if (nameOS == 0) {
-            System.out.println("iOs");
+    public static float calculateCardDeliverDays(float distance) {
+        if (distance < 20 && distance > 0) {
+            return 1;
+        } else if (distance < 60) {
+            return 2;
+        } else if (distance < 100) {
+            return 3;
         } else {
-            System.out.println("Android");
-
+            return -1;
         }
     }
 
-    public static void checkDistance(float km) {
-        if (km > 100 || km < 0) {
-            System.out.println("Доставка не осуществляется");
-        } else {
-            if (km >= 60) {
-                System.out.println("Доставка займет 3 суток");
-            } else if (km >= 20) {
-                System.out.println("Доставка займет 2 суток");
-            } else {
-                System.out.println("Доставка займет сутки");
-            }
-        }
-    }
-    public static void main(String[]args) {
+    public static void main(String[] args) {
         printTask(" 1");
         int year = 2021;
         String yearForCheck = checkYear(year);
@@ -53,13 +48,20 @@ public class Main {
         int year1 = 2025;
         int osName = 2;
         if (osName == 0 || osName == 1) {
-            checkPhone(year1);
-            checkPhoneOS(osName);
+            checkDevice(year1, osName);
         } else {
             System.out.println("Операционная система не поддерживается");
         }
         printTask(" 3");
-        float wayForDelivery = 20.1f;
-        checkDistance(wayForDelivery);
+        float deliveryDistance = 0.1f;
+        if (deliveryDistance < 0) {
+            throw new RuntimeException("Неправильно введены данные");
+        }
+        float days = calculateCardDeliverDays(deliveryDistance);
+        if (days > 0) {
+            System.out.println("Доставка займет " + days + "  дня");
+        } else {
+            System.out.println("Доставка не осуществляется");
+        }
     }
 }
